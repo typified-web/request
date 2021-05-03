@@ -1,0 +1,32 @@
+{
+  "name": "typed-fetch-decorator",
+  "version": "1.0.0",
+  "description": "An experimental typed decorator for fetch.",
+  "main": "dist/decorator.js",
+  "module": "dist/decorator.esm.js",
+  "scripts": {
+    "build": "rollup -c",
+    "test": "mocha",
+    "coverage": "c8 --reporter=lcov run-s test",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "prepublishOnly": "run-s build changelog"
+  },
+  "keywords": [
+    "fetch",
+    "typed",
+    "typescript"
+  ],
+  "author": "Zhi <yfwz100@yeah.net>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/mocha": "^8.2.2",
+    "c8": "^7.7.2",
+    "conventional-changelog-cli": "^2.1.1",
+    "cross-fetch": "^3.1.4",
+    "mocha": "^8.3.2",
+    "mockttp": "^1.2.2",
+    "npm-run-all": "^4.1.5",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  }
+}
