@@ -1,6 +1,6 @@
 {
   "name": "typed-fetch-decorator",
-  "version": "1.0.0-1",
+  "version": "1.0.0-2",
   "description": "An experimental typed decorator for fetch.",
   "main": "dist/decorator.js",
   "module": "dist/decorator.esm.js",
@@ -16,6 +16,10 @@
     "typed",
     "typescript"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yfwz100/typed-fetch-decorator.git"
+  },
   "author": "Zhi <yfwz100@yeah.net>",
   "license": "MIT",
   "devDependencies": {
