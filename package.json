@@ -1,7 +1,7 @@
 {
-  "name": "typed-fetch-decorator",
-  "version": "1.0.0-3",
-  "description": "An experimental typed decorator for fetch.",
+  "name": "@typified-web/request",
+  "version": "0.0.1-alpha.1",
+  "description": "A type-safe http client with a focus on zero runtime cost.",
   "main": "dist/decorator.js",
   "module": "dist/decorator.esm.js",
   "scripts": {
@@ -12,9 +12,9 @@
     "prepublishOnly": "run-s build changelog"
   },
   "keywords": [
+    "typescript",
     "fetch",
-    "typed",
-    "typescript"
+    "request"
   ],
   "repository": {
     "type": "git",
