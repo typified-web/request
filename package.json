@@ -1,6 +1,6 @@
 {
   "name": "@typified-web/request",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A type-safe http client with a focus on zero runtime cost.",
   "main": "dist/decorator.js",
   "module": "dist/decorator.esm.js",
