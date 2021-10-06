@@ -1,59 +1,88 @@
-# typed-fetch-decorator
+# @typified-web/request
 
-An experimental almost zero-cost decorator for fetch with your API specification.
+A tiny request library to provide compile-time type-safe with your API specification.
 
-## Why?
+## Features
 
-- types for each API calls with simple declarations for API,
+- Types for each API calls with simple declarations for API,
+
   which means:
-  - code auto completion by API declarations.
-  - type validation.
-- familiar and handy API for both browser & NodeJS.
-- almost zero overhead for runtime.
+
+  - Code completion by API declarations with supported editor (like VSCode).
+
+  - Type validation at compile-time (design-time).
+
+- Natural API to request resources.
+
+- Tiny footprint for runtime of browser and NodeJS (about **4kb** uncompressed).
 
 ## Getting Started
 
 Installation via npm:
 
 ```shell
-npm i typed-fetch-decorator
+npm i @typified-web/request
 ```
 
-Declare your API. E.g. the `GET /test/:name` end point:
+Declare your API. E.g. the `GET /greet/:name` end point:
 
 ```typescript
-import decoratedFetch from "typed-fetch-decorator";
-
-// declare your API.
 type YourAPI = {
-  "/test/:name": {
-    GET: {
-      req: {
+  '/greet/:name': {
+    get: {
+      input: {
         route: {
           name: string;
         };
       };
       output: {
-        resCode: string;
-        result: {
-          name: string;
+        body: {
+          resCode: string;
+          result: {
+            name: string;
+          };
         };
       };
     };
   };
 };
-
-// the decorated fetch function.
-export default decoratedFetch<YourAPI>(fetch);
 ```
 
-Then, you can use it anywhere you like via `import` and get auto completion and validation for the fetch.
+Then create your API request client:
 
-> If you're using NodeJS, install `node-fetch` to provide the `fetch` implementation.
+```typescript
+import { createRequest } from '@typified-web/request';
+
+// the decorated reuqest function.
+export default createRequest<YourAPI>();
+```
+
+> If you're using NodeJS, install `node-fetch` to provide the `fetch` implementation, like:
+>
+> ```typescript
+> import fetch from 'node-fetch';
+>
+> export default createRequest<YourAPI>({
+>   fetch: (path, opt) => {
+>     return fetch(`${host}${path}`, opt);
+>   },
+> });
+> ```
+
+Then, you can use it anywhere you like via `import` and get auto completion and validation for each request:
+
+```typescript
+import request from './the/newly/created/request';
+
+// send a request.
+request.endpoint('/greet/:name').get({ route: { name: 'Jack' } });
+```
+
+Code-completion and type validation works like a charm.
 
 ## API
 
-It's quite simple. As you can see in the example above, the API includes two parts: the API declaration and the decorated fetch function.
+The API includes two parts: the API declaration for design-time and the decorated request client for runtime.
 
 ### API declaration
 
@@ -64,44 +93,57 @@ export type APISpec = {
   // URL or path of the API endpoint.
   [path: string]: {
     // HTTP Methods.
-    [M in Methods]?: {
+    [M in Method]?: {
       // Request Specification.
-      req?: {
+      input?: {
         // Path parameters
         route?: PathParameter;
+        // Path parameters
+        query?: PathParameter;
         // Headers
         headers?: Record<string, string>;
         // Request body.
         body?: Json;
       };
-      // Result of the response in JSON format.
-      output: Json;
+      // Response Specification.
+      output: {
+        headers?: Record<string, string>;
+        body?: Json;
+      };
     };
   };
 };
 ```
 
-The declaration is just for development only and will be swipped in runtime. That's why we call it zero-overhead.
+The declaration is just for design-time only and will be swiped in runtime. That's why we call it almost **zero-overhead**.
 
-### The decorated fetch function
+### The request client
 
-The decorator itself is complicatedly typed due to some flaws of typescript. Here we simplified the decorated fetch function as:
+To create a request client, you can specify your customized fetch implemenation for easy extention:
 
 ```typescript
-function fetch(url: string, opt: {
-  headers: YOU_API_HEADERS,
-  body: YOUR API_BODY,
-  // ... other fetch options.
-}): Promise<Reponse<YOUR_API_OUTPUT>>
+import fetch from 'node-fetch';
+
+const request = createRequest<YourAPI>({
+  fetch: (path, opt) => {
+    return fetch(`${host}${path}`, opt);
+  },
+});
 ```
 
-In short, you can just use the decorated fetch function like the original `fetch` with types.
+The request client itself is complicatedly typed as it uses generics massively.
 
-for more details, see the project declaration files.
+However, the usage is quite simple.
+
+```typescript
+request.endpoint('PATH').method({ params });
+```
+
+The path is the resource key defined in your API specification and method is the supported method(`get`/`post`/`put`/`patch`/`delete`) for your endpoint declaration. The parameters will be inferred for you.
 
 ## Limitations
 
-The decorator is not a one-to-one typed decorator to fetch. It just add type declarations to the JSON-like API, which means the input and output are mostly JSON. Anything outside the JSON-like API is not considered well.
+It just add type declarations to the JSON-like API, which means the input and output are mostly JSON. Anything outside the JSON-like API is not considered well.
 
 Help is welcomed!
 
