@@ -1,6 +1,6 @@
 {
   "name": "@typified-web/request",
-  "version": "0.0.1-alpha.1",
+  "version": "1.0.0-beta.1",
   "description": "A type-safe http client with a focus on zero runtime cost.",
   "main": "dist/decorator.js",
   "module": "dist/decorator.esm.js",
@@ -18,7 +18,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yfwz100/typed-fetch-decorator.git"
+    "url": "git+https://github.com/typified-web/request.git"
   },
   "author": "Zhi <yfwz100@yeah.net>",
   "license": "MIT",
