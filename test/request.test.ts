@@ -31,6 +31,7 @@ type MockAPI = {
       };
     };
   };
+} & {
   '/test/:name': {
     get: {
       input: {

@@ -117,6 +117,59 @@ export type APISpec = {
 
 The declaration is just for design-time only and will be swiped in runtime. That's why we call it almost **zero-overhead**.
 
+> **Too large for a single API declaration?**
+>
+> You can split your API declaration into several types and use intersection type to join them together.
+>
+> e.g.
+>
+> ```typescript
+> // first part of API declaration.
+> type YourAPI_1 = {
+>   '/greet/:name': {
+>     get: {
+>       input: {
+>         route: {
+>           name: string;
+>         };
+>       };
+>       output: {
+>         body: {
+>           resCode: string;
+>           result: {
+>             name: string;
+>           };
+>         };
+>       };
+>     };
+>   };
+> };
+>
+> // second part of API declaration.
+> type YourAPI_2 = {
+>   '/say-hello/:name': {
+>     get: {
+>       input: {
+>         route: {
+>           name: string;
+>         };
+>       };
+>       output: {
+>         body: {
+>           resCode: string;
+>           result: {
+>             name: string;
+>           };
+>         };
+>       };
+>     };
+>   };
+> };
+>
+> // join them with type intersection.
+> export type API = YourAPI_1 & YourAPI_2;
+> ```
+
 ### The request client
 
 To create a request client, you can specify your customized fetch implemenation for easy extention:
