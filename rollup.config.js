@@ -1,22 +1,12 @@
-import { resolve } from "path";
-import ts from "rollup-plugin-ts";
+import { defineConfig } from 'rollup';
+import { resolve } from 'path';
+import ts from 'rollup-plugin-ts';
 
-export default [
-  {
-    input: resolve(__dirname, "src", "decorator.ts"),
-    output: {
-      format: "commonjs",
-      exports: "default",
-      file: "./dist/decorator.js",
-    },
-    plugins: [ts()],
+export default defineConfig({
+  input: resolve(__dirname, 'src', 'request.ts'),
+  output: {
+    format: 'esm',
+    file: './dist/request.js',
   },
-  {
-    input: resolve(__dirname, "src", "decorator.ts"),
-    output: {
-      format: "es",
-      file: "./dist/decorator.esm.js",
-    },
-    plugins: [ts()],
-  },
-];
+  plugins: [ts()],
+});
