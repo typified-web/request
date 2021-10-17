@@ -1,0 +1,9 @@
+---
+trailingComma: 'all'
+singleQuote: true
+quoteProps: 'as-needed'
+endOfLine: 'lf'
+tabWidth: 2
+useTabs: false
+semi: true
+printWidth: 120
